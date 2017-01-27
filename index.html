@@ -3,10 +3,10 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
     <head>
         <meta charset="utf-8" />
-        <title>WebRTC Camera Resolution Finder</title>
+        <title>Camera Resolution Finder</title>
         <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="shortcut icon" href="https://webrtchacks.com/wp-content/themes/parament/favicon.ico">
+        <link rel="shortcut icon" href="http://fullcreative-live.appspot.com/wp-content/themes/FullCreative/img/favicon.ico">
         <style>
             .row {
                 margin-left: 10px;
@@ -32,21 +32,30 @@
     <body>
         <div id="container">
             <div class="row">
-                <h2>WebRTC getUserMedia camera resolution finder</h2>
+                <h2>FullCreative Camera Resolution Finder</h2>
                 <div id="selectArea" hidden>
                     <h4>Select camera(s) below:</h4>
                     <select id="devices" name="Video devices" multiple title="devices"></select>
                 </div>
             </div>
+            <!-- <div class="col-sm-6 scanarea well well-sm" id="quickArea">
+
+            </div> -->
             <div class="row" id="controlArea">
-                <h4>Click one of the buttons below to find camera resolutions:</h4>
-                <div class="col-sm-6 scanarea well well-sm" id="quickArea">
-                    <button class="btn btn-primary btn-block" id="quickButton">Scan</button>
-                </div>
+              <button class="btn btn-primary btn-block" id="quickButton">Scan</button>
+                <!-- <h4>Click one of the buttons below to find camera resolutions:</h4> -->
             </div>
             <div class="row" id="videoarea">
-                <video id="video" autoplay></video>
+                <video id="video" autoplay style="display:none;"></video>
             </div>
+            <span id="resolutionNumber" style="
+                  color: #2b8e00;
+                  display: block;
+                  font-size: 55px;
+                  text-transform: lowercase;
+                  text-align: center;
+                  display: none;
+            ">2560 X 1440</span>
             <div class="row">
                 <p id="jump" hidden>Jump to <a href="#bottom">bottom</a> of table</p>
                 <table class="table-condensed table-bordered table-striped"	id="results" hidden >
@@ -57,7 +66,7 @@
             </div>
             <div id="bottom"></div>
             <div class="row">
-                <h4>Visit <a href="http://webrtchacks.com">webrtcHacks.com</a> for more details.</h4>
+                <!-- <h4>Visit <a href="http://webrtchacks.com">webrtcHacks.com</a> for more details.</h4> -->
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>

@@ -54,7 +54,7 @@ $(document).ready(function(){
     }
 
     //check if the user is using http vs. https & redirect to https if needed
-    if (document.location.protocol != "https:"){
+    if (document.location.protocol != "https:" && document.location.host.indexOf('localhost') === -1){
         $(document).html("This doesn't work well on http. Redirecting to https");
         console.log("redirecting to https");
         document.location.href = "https:" + document.location.href.substring(document.location.protocol.length);
@@ -73,7 +73,7 @@ $(document).ready(function(){
 $('button').click(function(){
 
     //setup for a quick scan using the hand-built quickScan object
-    if (this.innerHTML == "Quick Scan"){
+    if (this.innerHTML == "Scan"){
         console.log("Quick scan");
         tests = quickScan;
     }
@@ -88,8 +88,8 @@ $('button').click(function(){
 
     scanning = true;
     $('button').prop("disabled",true);
-    $('table').show();
-    $('#jump').show();
+    // $('table').show();
+    // $('#jump').show();
 
     //if there is device enumeration
     if (devices){
@@ -213,35 +213,41 @@ function captureResults(status){
     tests[r].streamWidth =  video.videoWidth;
     tests[r].streamHeight =  video.videoHeight;
 
-    var row = $('table#results')[0].insertRow(-1);
-    var browserVer = row.insertCell(0);
-    var deviceName = row.insertCell(1);
-    var label = row.insertCell(2);
-    var ratio = row.insertCell(3);
-    var ask = row.insertCell(4);
-    var actual = row.insertCell(5);
-    var statusCell = row.insertCell(6);
-    var deviceIndex = row.insertCell(7);
-    var resIndex = row.insertCell(8);
-
-    //don't show these
-    deviceIndex.style.display="none";
-    resIndex.style.display="none";
-
-    deviceIndex.class = "hidden";
-    resIndex.class = "hidden";
-
-    browserVer.innerHTML = webrtcDetectedBrowser + " " + webrtcDetectedVersion;
-    deviceName.innerHTML = selectedCamera[camNum].label;
-    label.innerHTML = tests[r].label;
-    ratio.innerHTML = tests[r].ratio;
-    ask.innerHTML = tests[r].width + "x" + tests[r].height;
-    actual.innerHTML = tests[r].streamWidth+ "x" + tests[r].streamHeight;
-    statusCell.innerHTML = tests[r].status;
-    deviceIndex.innerHTML = camNum;     //used for debugging
-    resIndex.innerHTML = r;             //used for debugging
+    // var row = $('table#results')[0].insertRow(-1);
+    // var browserVer = row.insertCell(0);
+    // var deviceName = row.insertCell(1);
+    // var label = row.insertCell(2);
+    // var ratio = row.insertCell(3);
+    // var ask = row.insertCell(4);
+    // var actual = row.insertCell(5);
+    // var statusCell = row.insertCell(6);
+    // var deviceIndex = row.insertCell(7);
+    // var resIndex = row.insertCell(8);
+    //
+    // //don't show these
+    // deviceIndex.style.display="none";
+    // resIndex.style.display="none";
+    //
+    // deviceIndex.class = "hidden";
+    // resIndex.class = "hidden";
+    //
+    // browserVer.innerHTML = webrtcDetectedBrowser + " " + webrtcDetectedVersion;
+    // deviceName.innerHTML = selectedCamera[camNum].label;
+    // label.innerHTML = tests[r].label;
+    // ratio.innerHTML = tests[r].ratio;
+    // ask.innerHTML = tests[r].width + "x" + tests[r].height;
+    // actual.innerHTML = tests[r].streamWidth+ "x" + tests[r].streamHeight;
+    // statusCell.innerHTML = tests[r].status;
+    // deviceIndex.innerHTML = camNum;     //used for debugging
+    // resIndex.innerHTML = r;             //used for debugging
 
     r++;
+
+    if(status === 'pass') {
+        $('#resolutionNumber').text(`${video.videoWidth}x${video.videoHeight}`);
+        $('#resolutionNumber').css('display', 'block');
+        return;
+    }
 
     //go to the next tests
     if (r < tests.length){
@@ -253,20 +259,10 @@ function captureResults(status){
         gum(tests[r], selectedCamera[camNum])
     }
     else{ //finish up
-       video.removeEventListener("onloadedmetadata", displayVideoDimensions); //turn off the event handler
-       $('button').off("click"); //turn the generic button handler  off
+        $('#resolutionNumber').text('No resolution supported');
+        $('#resolutionNumber').css('color', 'red');
+        $('#resolutionNumber').css('display', 'block');
 
-        scanning = false;
-
-        $(".pfin").show();
-        $('#csvOut').click(function(){
-            exportTableToCSV.apply(this, [$('#results'), 'gumResTestExport.csv']);
-            });
-
-        //allow to click on a row to test (only works with device Enumeration
-        if (devices){
-            clickRows();
-        }
     }
 }
 
