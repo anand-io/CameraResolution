@@ -129,7 +129,7 @@ video.onloadedmetadata = displayVideoDimensions;
 // This is where we are showing the reuslt if it passes.
 function captureResults(status){
     if(status === 'pass') {
-        var res = `${camDevices[currentDevice].label} - ${video.videoWidth}x${video.videoHeight}`;
+        var res = `${camDevices[currentDevice].label || `Camera${currentDevice}`} - ${video.videoWidth}x${video.videoHeight}`;
         $('#ress').append(`<span class="result">${res}</span>`);
         oneSuccess = true;
     }
