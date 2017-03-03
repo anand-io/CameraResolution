@@ -56,9 +56,16 @@ function errorCallback(error) {
     console.log('navigator.getUserMedia error: ', error);
 }
 
-navigator.mediaDevices.enumerateDevices()
+
+navigator.mediaDevices.getUserMedia({ audio:false, video: true }).then(function(stream){
+     stream.getTracks().forEach(function (track) {
+        track.stop();
+    });
+    navigator.mediaDevices.enumerateDevices()
     .then(gotDevices)
     .catch(errorCallback);
+});
+
 
 
 //calls getUserMedia for a given camera and constraints
@@ -68,7 +75,8 @@ function gum(device) {
 
     //Kill any running streams;
     if (stream) {
-        stream.getTracks().forEach(function (track) {
+        stream.
+        ().forEach(function (track) {
             track.stop();
         });
     }
