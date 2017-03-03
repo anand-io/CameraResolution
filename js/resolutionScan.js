@@ -75,8 +75,7 @@ function gum(device) {
 
     //Kill any running streams;
     if (stream) {
-        stream.
-        ().forEach(function (track) {
+        stream.getTracks().forEach(function (track) {
             track.stop();
         });
     }
